@@ -1,0 +1,78 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.company.widget.NoScrollViewPager
+        android:id="@+id/novp_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </com.company.widget.NoScrollViewPager>
+
+
+
+    <RadioGroup
+        android:id="@+id/rg_main"
+        android:layout_width="match_parent"
+        android:layout_height="49dp"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/rb_toutiao"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="6dp"
+            android:layout_weight="1"
+            android:button="@null"
+            android:checked="true"
+            android:drawableTop="@drawable/cb_top"
+            android:gravity="center"
+            android:text="头条"
+            android:textColor="@drawable/cb_textcolor"
+            android:textSize="12sp" />
+
+        <RadioButton
+            android:id="@+id/rb_through"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="6dp"
+            android:layout_weight="1"
+            android:button="@null"
+            android:drawableTop="@drawable/cb_through"
+            android:gravity="center"
+            android:text="穿越"
+            android:textColor="@drawable/cb_textcolor"
+            android:textSize="12sp" />
+
+        <!--   <RadioButton
+               android:id="@+id/rb_top"
+               android:layout_width="0dp"
+               android:layout_height="match_parent"
+               android:layout_weight="1"
+               android:background="@drawable/rb_chuanyue_bg"
+               android:button="@null"
+               android:gravity="center"
+               android:text="top榜" />-->
+
+        <RadioButton
+            android:id="@+id/rb_setting"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="6dp"
+            android:layout_weight="1"
+            android:button="@null"
+            android:drawableTop="@drawable/cb_setting"
+            android:gravity="center"
+            android:text="我的"
+            android:textColor="@drawable/cb_textcolor"
+            android:textSize="12sp" />
+
+    </RadioGroup>
+    <View
+        android:layout_above="@id/rg_main"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"></View>
+
+</RelativeLayout>
