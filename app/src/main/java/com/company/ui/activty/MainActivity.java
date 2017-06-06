@@ -5,16 +5,26 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.company.MyApplication;
 import com.company.R;
+import com.company.db.User;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
+import io.rx_cache2.Reply;
 
 public class MainActivity extends Activity {
   /*  @BindView(R.id.rv)
@@ -60,6 +70,23 @@ public class MainActivity extends Activity {
         tabs.addTab(tabs.newTab().setText("tab1"));
         tabs.addTab(tabs.newTab().setText("tab2"));
         tabs.addTab(tabs.newTab().setText("tab2"));*/
+        MyApplication.getInstance().getHttpUtils().getUsers(1,false)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<Reply<List<User>>>() {
+                    @Override
+                    public void accept(@NonNull Reply<List<User>> listReply) throws Exception {
+                        for (User user :
+                                listReply.getData()) {
+                            Log.e("===", user.toString());
+                        }
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(@NonNull Throwable throwable) throws Exception {
+                        Log.e("===",throwable.getMessage());
+                    }
+                });
     }
 
     class Holer extends RecyclerView.ViewHolder {

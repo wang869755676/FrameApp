@@ -28,7 +28,7 @@ public class MyApplication extends Application {
         /**
          *  初始化网络请求的工具类
          */
-        httpUtils = new HttpUtils(mPreferenceUtil);
+        httpUtils = new HttpUtils(mPreferenceUtil,getFilesDir());
         Fresco.initialize(this);
     }
 

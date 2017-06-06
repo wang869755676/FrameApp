@@ -4,10 +4,11 @@ import android.content.Context;
 import android.widget.Toast;
 
 import com.company.exception.ApiException;
+import com.jakewharton.retrofit2.adapter.rxjava2.HttpException;
 
 import java.io.IOException;
 
-import retrofit2.adapter.rxjava.HttpException;
+
 
 //辅助处理异常
 public class ApiErrorHelper {
