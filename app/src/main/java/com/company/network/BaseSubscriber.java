@@ -8,7 +8,7 @@ import com.company.exception.ApiException;
 import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
 
-
+//  可以添加进度条之类的
 public class BaseSubscriber<T> implements Subscriber<T> {
     private Context mContext;
 
