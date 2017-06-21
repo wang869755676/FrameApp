@@ -1,5 +1,6 @@
 package com.company.ui.activty;
 
+import android.Manifest;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -13,6 +14,8 @@ import android.widget.TextView;
 import com.company.MyApplication;
 import com.company.R;
 import com.company.db.User;
+import com.company.exception.ApiException;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import java.util.List;
 
@@ -21,6 +24,7 @@ import butterknife.ButterKnife;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
@@ -70,14 +74,24 @@ public class MainActivity extends Activity {
         tabs.addTab(tabs.newTab().setText("tab1"));
         tabs.addTab(tabs.newTab().setText("tab2"));
         tabs.addTab(tabs.newTab().setText("tab2"));*/
-        MyApplication.getInstance().getHttpUtils().getUsers(1,false)
+        MyApplication.getInstance().getHttpUtils().getUsers(1,false)  // 对其进行全局处理
+                .map(new Function<Reply<List<User>>, List<User>>() {
+
+            @Override
+            public List<User> apply(@NonNull Reply<List<User>> listReply) throws Exception {
+                if(!listReply.isEncrypted()){
+                    throw  new ApiException(2,"返回码异常");
+                }
+                return listReply.getData();
+            }
+        })
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<Reply<List<User>>>() {
+                .subscribe(new Consumer<List<User>>() {
                     @Override
-                    public void accept(@NonNull Reply<List<User>> listReply) throws Exception {
+                    public void accept(@NonNull List<User>listReply) throws Exception {
                         for (User user :
-                                listReply.getData()) {
+                                listReply) {
                             Log.e("===", user.toString());
                         }
                     }
@@ -87,6 +101,22 @@ public class MainActivity extends Activity {
                         Log.e("===",throwable.getMessage());
                     }
                 });
+
+        permission();
+    }
+     // 权限管理
+    private void permission() {
+        RxPermissions rxPermissions = new RxPermissions(this); // where this is an Activity instance
+        rxPermissions
+                .request(Manifest.permission.CAMERA)
+                .subscribe(granted -> {
+                    if (granted) { // Always true pre-M
+                       Log.e("===","granted");
+                    } else {
+                        Log.e("===","deny");
+                    }
+                });
+
     }
 
     class Holer extends RecyclerView.ViewHolder {
