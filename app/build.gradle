@@ -76,6 +76,7 @@ dependencies {
     // 权限管理
     compile 'com.tbruyelle.rxpermissions2:rxpermissions:0.9.4@aar'
 
+    compile 'org.greenrobot:eventbus:3.0.0'
     compile project(':library')
 }
 

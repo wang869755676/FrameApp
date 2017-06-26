@@ -5,14 +5,23 @@ import com.company.db.User;
 import com.company.model.MessageList;
 import com.company.model.Repo;
 import com.company.model.Result;
+import com.squareup.okhttp.ResponseBody;
 
 import java.util.List;
+import java.util.Map;
 
 import io.reactivex.Observable;
+import okhttp3.MultipartBody;
 import retrofit2.Call;
 import retrofit2.Response;
+import retrofit2.http.Body;
+import retrofit2.http.FieldMap;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
+import retrofit2.http.Multipart;
+import retrofit2.http.POST;
+import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -37,4 +46,12 @@ public interface HttpService {
 
     @Headers({HEADER_API_VERSION})
     @GET("/users/{username}") Observable<Response<User>> getUser(@Path("username") String username);
+
+    @Multipart
+    @POST("")
+    Call<ResponseBody> register(@Body Object post, @Part MultipartBody.Part image);  //图文上传
+    // 、、使用@Field时记得添加@FormUrlEncoded  单个提交post的请求
+    @FormUrlEncoded
+    @POST("user/edit")
+    Call<User> getUser(@FieldMap Map<String, String> map);
 }

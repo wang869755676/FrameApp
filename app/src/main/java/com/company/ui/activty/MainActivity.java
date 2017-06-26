@@ -17,6 +17,8 @@ import com.company.db.User;
 import com.company.exception.ApiException;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.List;
 
 import butterknife.BindView;
@@ -40,6 +42,7 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         RealmConfiguration realmConfig = new RealmConfiguration
@@ -127,5 +130,11 @@ public class MainActivity extends Activity {
             super(itemView);
             tv = (TextView) itemView;
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        EventBus.getDefault().unregister(this);
+        super.onDestroy();
     }
 }
